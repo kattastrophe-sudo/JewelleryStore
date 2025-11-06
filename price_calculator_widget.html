@@ -95,31 +95,6 @@
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
-        .quick-amounts {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .quick-amount-btn {
-            padding: 8px 16px;
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #4b5563;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quick-amount-btn:hover {
-            background: #667eea;
-            border-color: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
 
         .results-section {
             opacity: 0;
@@ -353,16 +328,6 @@
                         step="0.01"
                         min="0"
                     >
-                </div>
-                <div class="quick-amounts">
-                    <button class="quick-amount-btn" onclick="setPrice(113)">$113</button>
-                    <button class="quick-amount-btn" onclick="setPrice(282.50)">$282.50</button>
-                    <button class="quick-amount-btn" onclick="setPrice(282.51)">$282.51</button>
-                    <button class="quick-amount-btn" onclick="setPrice(565)">$565</button>
-                    <button class="quick-amount-btn" onclick="setPrice(565.01)">$565.01</button>
-                    <button class="quick-amount-btn" onclick="setPrice(1000)">$1,000</button>
-                </div>
-            </div>
 
             <div class="results-section" id="results">
                 <div class="empty-state">
