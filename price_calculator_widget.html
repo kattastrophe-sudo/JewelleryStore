@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JDBB Price Calculator</title>
+    <title>JDBB Price Calculator - TEST</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             min-height: 100vh;
@@ -36,12 +36,6 @@
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
         }
 
         .calculator-card {
@@ -51,29 +45,23 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .input-section {
-            margin-bottom: 30px;
-        }
-
         .input-label {
             display: block;
             font-size: 14px;
             font-weight: 600;
             color: #4b5563;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .price-input-wrapper {
             position: relative;
-            display: flex;
-            align-items: center;
         }
 
         .dollar-sign {
             position: absolute;
             left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             font-size: 32px;
             font-weight: 700;
             color: #9ca3af;
@@ -81,309 +69,111 @@
 
         .price-input {
             width: 100%;
-            padding: 20px 20px 20px 45px;
+            padding: 20px 20px 20px 50px;
             font-size: 32px;
             font-weight: 700;
             border: 3px solid #e5e7eb;
             border-radius: 12px;
-            transition: border-color 0.3s, box-shadow 0.3s;
             outline: none;
         }
 
         .price-input:focus {
             border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
-        .quick-amounts {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .quick-amount-btn {
-            padding: 8px 16px;
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #4b5563;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quick-amount-btn:hover {
-            background: #667eea;
-            border-color: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .results-section {
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .results-section.visible {
-            opacity: 1;
-        }
-
-        .tier-badge {
-            display: inline-block;
-            padding: 12px 24px;
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9fafb;
             border-radius: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 20px;
         }
 
-        .tier-badge.tier-20 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .tier-badge.tier-15 {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #8B4513;
-        }
-
-        .tier-badge.tier-10 {
-            background: linear-gradient(135deg, #a8edea 0%, #5eead4 100%);
-            color: #065f46;
-        }
-
-        .breakdown-grid {
-            display: grid;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .breakdown-item {
+        .result-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: #f9fafb;
-            border-radius: 10px;
-            border-left: 4px solid #e5e7eb;
+            padding: 10px 0;
+            font-size: 16px;
         }
 
-        .breakdown-label {
-            font-size: 14px;
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .breakdown-value {
-            font-size: 20px;
+        .result-value {
             font-weight: 700;
             color: #1f2937;
         }
 
-        .you-get-box {
+        .you-get {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
-            margin: 20px 0;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            margin-top: 20px;
         }
 
         .you-get-label {
             font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.9;
             margin-bottom: 8px;
         }
 
         .you-get-amount {
             font-size: 48px;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
-        .tip-box {
-            background: #fef3c7;
-            border: 2px solid #fbbf24;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .tip-box.success {
-            background: #d1fae5;
-            border-color: #34d399;
-        }
-
-        .tip-box.info {
-            background: #dbeafe;
-            border-color: #60a5fa;
-        }
-
-        .tip-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .tip-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .tip-text {
-            font-size: 14px;
-            color: #4b5563;
-            line-height: 1.5;
-        }
-
-        .comparison {
-            background: #f3f4f6;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .comparison strong {
-            color: #1f2937;
-        }
-
-        .fee-structure {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .fee-structure-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 15px;
-        }
-
-        .fee-tier-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            margin-bottom: 8px;
+        .tier-badge {
+            display: inline-block;
+            padding: 8px 16px;
             border-radius: 8px;
             font-size: 14px;
-            color: #4b5563;
-        }
-
-        .fee-tier-info.active {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-weight: 600;
-        }
-
-        .fee-tier-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-weight: 700;
-            font-size: 12px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #9ca3af;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
             margin-bottom: 15px;
         }
 
-        .empty-state-text {
-            font-size: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .calculator-card {
-                padding: 25px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .price-input {
-                font-size: 28px;
-            }
-
-            .you-get-amount {
-                font-size: 36px;
-            }
-        }
+        .tier-20 { background: #fee2e2; color: #991b1b; }
+        .tier-15 { background: #fef3c7; color: #92400e; }
+        .tier-10 { background: #d1fae5; color: #065f46; }
     </style>
 </head>
 <body>
     <div class="calculator-container">
         <div class="header">
-            <h1>🧮 Price Calculator</h1>
-            <p>Enter any price to see what you'll earn</p>
+            <h1>🧮 Price Calculator TEST</h1>
+            <p>Type a price to test the calculator</p>
         </div>
 
         <div class="calculator-card">
-            <div class="input-section">
-                <label class="input-label">Customer Pays (including tax)</label>
-                <div class="price-input-wrapper">
-                    <span class="dollar-sign">$</span>
-                    <input 
-                        type="number" 
-                        class="price-input" 
-                        id="priceInput"
-                        placeholder="0.00"
-                        step="0.01"
-                        min="0"
-                    >
-                </div>
-                <div class="quick-amounts">
-                    <button class="quick-amount-btn" onclick="setPrice(50)">$50</button>
-                    <button class="quick-amount-btn" onclick="setPrice(75)">$75</button>
-                    <button class="quick-amount-btn" onclick="setPrice(100)">$100</button>
-                    <button class="quick-amount-btn" onclick="setPrice(150)">$150</button>
-                    <button class="quick-amount-btn" onclick="setPrice(200)">$200</button>
-                    <button class="quick-amount-btn" onclick="setPrice(250)">$250</button>
-                </div>
+            <label class="input-label">Customer Pays (including tax)</label>
+            <div class="price-input-wrapper">
+                <span class="dollar-sign">$</span>
+                <input 
+                    type="number" 
+                    class="price-input" 
+                    id="priceInput"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                >
             </div>
 
-            <div class="results-section" id="results">
-                <div class="empty-state">
-                    <div class="empty-state-icon">💰</div>
-                    <div class="empty-state-text">Enter a price above to see your earnings</div>
+            <div class="results" id="results" style="display: none;">
+                <div class="tier-badge" id="tierBadge"></div>
+                
+                <div class="result-row">
+                    <span>Price before tax:</span>
+                    <span class="result-value" id="preTax">$0.00</span>
                 </div>
-            </div>
+                <div class="result-row">
+                    <span>HST (13%):</span>
+                    <span class="result-value" id="hst">$0.00</span>
+                </div>
+                <div class="result-row">
+                    <span>Store fee:</span>
+                    <span class="result-value" id="fee">$0.00</span>
+                </div>
 
-            <div class="fee-structure">
-                <div class="fee-structure-title">Fee Structure</div>
-                <div class="fee-tier-info" data-tier="20">
-                    <div class="fee-tier-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">20%</div>
-                    <div>$0 - $282.50 → 20% store fee</div>
-                </div>
-                <div class="fee-tier-info" data-tier="15">
-                    <div class="fee-tier-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #8B4513;">15%</div>
-                    <div>$282.51 - $565 → 15% store fee</div>
-                </div>
-                <div class="fee-tier-info" data-tier="10">
-                    <div class="fee-tier-icon" style="background: linear-gradient(135deg, #a8edea 0%, #5eead4 100%); color: #065f46;">10%</div>
-                    <div>$565+ → 10% store fee (best!)</div>
+                <div class="you-get">
+                    <div class="you-get-label">You Get</div>
+                    <div class="you-get-amount" id="youGet">$0.00</div>
                 </div>
             </div>
         </div>
@@ -391,212 +181,59 @@
 
     <script>
         const HST_RATE = 0.13;
-        const priceInput = document.getElementById('priceInput');
-        const resultsSection = document.getElementById('results');
+        const input = document.getElementById('priceInput');
+        const results = document.getElementById('results');
 
-        priceInput.addEventListener('input', calculateEarnings);
-
-        function setPrice(amount) {
-            priceInput.value = amount.toFixed(2);
-            calculateEarnings();
-        }
-
-        function calculateEarnings() {
-            const finalPrice = parseFloat(priceInput.value);
-
-            // Clear active tier indicators
-            document.querySelectorAll('.fee-tier-info').forEach(el => el.classList.remove('active'));
+        input.addEventListener('input', function() {
+            const finalPrice = parseFloat(this.value);
 
             if (!finalPrice || finalPrice <= 0) {
-                resultsSection.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">💰</div>
-                        <div class="empty-state-text">Enter a price above to see your earnings</div>
-                    </div>
-                `;
-                resultsSection.classList.remove('visible');
+                results.style.display = 'none';
                 return;
             }
 
-            // Calculate values
+            // Calculate
             const preTax = finalPrice / (1 + HST_RATE);
             const hstAmount = finalPrice - preTax;
-            
-            // Determine fee tier
-            let feeRate, tierClass, tierName, tierPercent;
+
+            // Determine tier
+            let feeRate, tierClass, tierText;
             if (preTax <= 250) {
                 feeRate = 0.20;
                 tierClass = 'tier-20';
-                tierName = 'Standard Tier';
-                tierPercent = '20%';
-                document.querySelector('[data-tier="20"]').classList.add('active');
+                tierText = '20% Fee';
             } else if (preTax <= 500) {
                 feeRate = 0.15;
                 tierClass = 'tier-15';
-                tierName = 'Mid-Range Tier';
-                tierPercent = '15%';
-                document.querySelector('[data-tier="15"]').classList.add('active');
+                tierText = '15% Fee';
             } else {
                 feeRate = 0.10;
                 tierClass = 'tier-10';
-                tierName = 'Premium Tier';
-                tierPercent = '10%';
-                document.querySelector('[data-tier="10"]').classList.add('active');
+                tierText = '10% Fee';
             }
 
             const storeFee = preTax * feeRate;
             const youGet = preTax - storeFee;
 
-            // Generate tip
-            let tip = generateTip(finalPrice, preTax, feeRate, youGet);
+            // Display
+            document.getElementById('tierBadge').className = 'tier-badge ' + tierClass;
+            document.getElementById('tierBadge').textContent = tierText;
+            document.getElementById('preTax').textContent = '$' + preTax.toFixed(2);
+            document.getElementById('hst').textContent = '$' + hstAmount.toFixed(2);
+            document.getElementById('fee').textContent = '-$' + storeFee.toFixed(2);
+            document.getElementById('youGet').textContent = '$' + youGet.toFixed(2);
 
-            // Display results
-            resultsSection.innerHTML = `
-                <div class="tier-badge ${tierClass}">${tierPercent} Fee - ${tierName}</div>
+            results.style.display = 'block';
+        });
 
-                <div class="breakdown-grid">
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">Price before tax</span>
-                        <span class="breakdown-value">$${preTax.toFixed(2)}</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">HST (13%)</span>
-                        <span class="breakdown-value">$${hstAmount.toFixed(2)}</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">Store fee (${tierPercent})</span>
-                        <span class="breakdown-value">-$${storeFee.toFixed(2)}</span>
-                    </div>
-                </div>
-
-                <div class="you-get-box">
-                    <div class="you-get-label">You Get</div>
-                    <div class="you-get-amount">$${youGet.toFixed(2)}</div>
-                </div>
-
-                ${tip}
-            `;
-
-            resultsSection.classList.add('visible');
-        }
-
-        function generateTip(finalPrice, preTax, feeRate, youGet) {
-            let tip = '';
-
-            // Tip for being just below threshold
-            if (finalPrice >= 280 && finalPrice < 282.50) {
-                const nextThreshold = 282.51;
-                const increase = nextThreshold - finalPrice;
-                const newPreTax = nextThreshold / 1.13;
-                const newFee = newPreTax * 0.15;
-                const newYouGet = newPreTax - newFee;
-                const extraEarnings = newYouGet - youGet;
-
-                tip = `
-                    <div class="tip-box">
-                        <div class="tip-icon">💡</div>
-                        <div class="tip-title">Almost at the 15% tier!</div>
-                        <div class="tip-text">
-                            Increase your price by just <strong>$${increase.toFixed(2)}</strong> to $${nextThreshold.toFixed(2)} and you'll earn <strong>$${extraEarnings.toFixed(2)} more</strong>!
-                        </div>
-                        <div class="comparison">
-                            At $${finalPrice.toFixed(2)}: You get <strong>$${youGet.toFixed(2)}</strong><br>
-                            At $${nextThreshold.toFixed(2)}: You get <strong>$${newYouGet.toFixed(2)}</strong>
-                        </div>
-                    </div>
-                `;
-            }
-            // Tip for just crossing threshold to 15%
-            else if (finalPrice >= 282.51 && finalPrice < 285) {
-                const oldPrice = 282.50;
-                const oldPreTax = oldPrice / 1.13;
-                const oldFee = oldPreTax * 0.20;
-                const oldYouGet = oldPreTax - oldFee;
-                const savings = youGet - oldYouGet;
-
-                tip = `
-                    <div class="tip-box success">
-                        <div class="tip-icon">🎉</div>
-                        <div class="tip-title">Great pricing strategy!</div>
-                        <div class="tip-text">
-                            By pricing at $${finalPrice.toFixed(2)} instead of $${oldPrice.toFixed(2)}, you're earning <strong>$${savings.toFixed(2)} more</strong>!
-                        </div>
-                    </div>
-                `;
-            }
-            // Tip for being just below second threshold
-            else if (finalPrice >= 560 && finalPrice < 565) {
-                const nextThreshold = 565.01;
-                const increase = nextThreshold - finalPrice;
-                const newPreTax = nextThreshold / 1.13;
-                const newFee = newPreTax * 0.10;
-                const newYouGet = newPreTax - newFee;
-                const extraEarnings = newYouGet - youGet;
-
-                tip = `
-                    <div class="tip-box">
-                        <div class="tip-icon">💡</div>
-                        <div class="tip-title">Almost at the 10% tier!</div>
-                        <div class="tip-text">
-                            Increase your price by just <strong>$${increase.toFixed(2)}</strong> to $${nextThreshold.toFixed(2)} and you'll earn <strong>$${extraEarnings.toFixed(2)} more</strong>!
-                        </div>
-                        <div class="comparison">
-                            At $${finalPrice.toFixed(2)}: You get <strong>$${youGet.toFixed(2)}</strong><br>
-                            At $${nextThreshold.toFixed(2)}: You get <strong>$${newYouGet.toFixed(2)}</strong>
-                        </div>
-                    </div>
-                `;
-            }
-            // Tip for just crossing threshold to 10%
-            else if (finalPrice >= 565.01 && finalPrice < 570) {
-                const oldPrice = 565.00;
-                const oldPreTax = oldPrice / 1.13;
-                const oldFee = oldPreTax * 0.15;
-                const oldYouGet = oldPreTax - oldFee;
-                const savings = youGet - oldYouGet;
-
-                tip = `
-                    <div class="tip-box success">
-                        <div class="tip-icon">🎉</div>
-                        <div class="tip-title">Excellent pricing strategy!</div>
-                        <div class="tip-text">
-                            By pricing at $${finalPrice.toFixed(2)} instead of $${oldPrice.toFixed(2)}, you're earning <strong>$${savings.toFixed(2)} more</strong>! You're at the best fee tier!
-                        </div>
-                    </div>
-                `;
-            }
-            // Tip for being in the premium tier
-            else if (feeRate === 0.10) {
-                tip = `
-                    <div class="tip-box success">
-                        <div class="tip-icon">⭐</div>
-                        <div class="tip-title">You're in the Premium Tier!</div>
-                        <div class="tip-text">
-                            At just 10% store fee, you're keeping 90% of the pre-tax price. This is the best rate available!
-                        </div>
-                    </div>
-                `;
-            }
-            // General tip for mid-range
-            else if (feeRate === 0.15) {
-                tip = `
-                    <div class="tip-box info">
-                        <div class="tip-icon">✨</div>
-                        <div class="tip-title">Good pricing tier!</div>
-                        <div class="tip-text">
-                            You're in the 15% tier. To reach the 10% tier (best rates), price at $565 or higher.
-                        </div>
-                    </div>
-                `;
-            }
-
-            return tip;
-        }
-
-        // Auto-calculate if there's a default value
-        if (priceInput.value) {
-            calculateEarnings();
-        }
+        console.log('✅ Calculator loaded successfully!');
+        console.log('Type a price to test...');
     </script>
 </body>
 </html>
+
+
+
+
+
+
